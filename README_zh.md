@@ -1,10 +1,10 @@
 # satori
 
-satori is a tool that generates a Gensokyo-style spellcard fight purely randomly.
+satori 是一个随机生成符卡战的小工具。
 
-## Usage
+## 使用
 
-Clone this repository, and run `main.py`.
+Clone 这个仓库并运行 `main.py`.
 
 ```bash
 # Install dependencies
@@ -15,8 +15,8 @@ python3 satori/main.py reimu marisa # change reimu and marisa to whoever you wan
 ```
 
 
-## Rules
-satori reads spellcard data from ~~your mind~~ `characters.toml` file.
+## 规则
+satori 从~~你心中~~ `characters.toml` 中读取符卡信息。
 
 
 ### Rounds
