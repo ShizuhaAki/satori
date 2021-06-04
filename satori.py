@@ -5,6 +5,29 @@ import random
 
 MODULE_DIR = os.path.abspath(__file__).replace('satori.py', '')
 
+class Girl:
+  def __init__():
+    pass
+
+  def __init__(name, dispname, hp, atk, spellcards):
+    self.cur_hp = hp
+    self.name = name
+    self.display_name = dispname
+    self.hp = hp
+    self.atk = atk
+    self.spellcard = spellcards
+
+
+  def is_dead():
+    return self.hp < 0
+
+
+  def use_spellcard():
+    pass
+
+  def init_round():
+    pass
+
 def dbgprint(s):
   s = '\n' + str(s)
   for c in s:
@@ -32,32 +55,20 @@ def satori(chr1, chr2):
     elif i['name'] == chr2:
       ind2 = ind
     ind += 1
-  ## get the display names
-  global ch1, ch2  ## for quick reference
-  ch1 = cfg['character'][ind1]
-  ch2 = cfg['character'][ind2]
-  global dchr1, dchr2
-  dchr1 = ch1['display_name']
-  # dbgprint(dchr1)
-  dchr2 = ch2['display_name']
-  # dbgprint(dchr2)
-  ## contest start
-  print('{} VS {}'.format(dchr1, dchr2))
+  g1, g2 = Girl(), Girl()
   ## print initial information
-  hp1, atk1, hp2, atk2 = ch1['hp'], ch1['atk'], ch2['hp'], ch2['atk']
-  round_start(hp1, hp2, atk1, atk2, True)
   while True:
     if check_end():
       break
     ## get current round's atk
     print('===')
-    cur_atk1 = random.randint(0, atk1)
-    cur_atk2 = random.randint(0, atk2)
+    g1.init_round()
+    g2.init_round()
     round_start(ch1['hp'], ch2['hp'], cur_atk1, cur_atk2)
-    if cur_atk1 > cur_atk2:
-      use_spellcard(ch1, ch2)
+    if g1.cur_atk > g2.cur_atk:
+      g1.use_spellcard(g2)
     else:
-      use_spellcard(ch2, ch1)
+      g2.use_spellcard(g1)
   #  break
   
 def round_start(h1, h2, a1, a2, init = False):
