@@ -1,3 +1,20 @@
+'''
+    satori, random spellcard fight generator
+    Copyright (C) 2021 Shu Shang
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+'''
 import os
 import random
 import tomlkit as toml
@@ -7,6 +24,7 @@ MODULE_DIR = os.path.abspath(__file__).replace('satori.py', '')
 
 
 class Spellcard:
+  '''Class for spellcards'''
   def __init__(self, dat):
     self.name = dat['name']
     self.display_name = dat['display_name']
@@ -25,6 +43,7 @@ class Spellcard:
 
 
 class Girl:
+  '''A girl in Gensokyo'''
   def __init__(self, name, dispname, hp, atk, spellcards):
     dbgprint('init: {} {} {} {}'.format(name, dispname, hp, atk))
     self.cur_hp = hp
@@ -62,7 +81,8 @@ class Girl:
       dbgprint('adding shield to {}, duration is {}'.format(self.name, spc.shield))
       self.shield += spc.shield
       self.tag = True
-      print('{}在以后{}轮内不会受到伤害'.format(self.display_name, self.shield if self.shield == 1 else self.shield - 1))
+      print('{}在以后{}轮内不会受到伤害'.\
+        format(self.display_name, self.shield if self.shield == 1 else self.shield - 1))
     if spc.hp_boost != 0:
       self.cur_hp += spc.hp_boost
       print('血量恢复了{}点'.format(spc.hp_boost))
@@ -74,13 +94,13 @@ class Girl:
       self.cur_hp -= val
       return True
     return False
-   
-  
+
+
   def get_hp(self):
     '''Returns the current hp of a girl'''
     return self.cur_hp
 
-  
+
   def get_atk(self):
     '''Returns the MAXIMUM atk of a girl'''
     return self.atk
@@ -91,7 +111,6 @@ class Girl:
     return random.randint(0, self.atk)
 
 
-   
   def add_atk_boost(self, natk, atime):
     '''Appends an atk boost'''
     dbgprint('adding atkboost to {}: {}, {}'.format(self.name, natk, atime))
@@ -115,14 +134,13 @@ class Girl:
     dbgprint('shield of {}: {}'.format(self.name, self.shield))
     dbgprint('atk of {} is now {}'.format(self.name, self.atk))
 
-  
 
 ## Remove the following comments to disable debug print
 #'''
-def dbgprint(s):
+def dbgprint(msg):
   '''Debug print'''
-  with open('debug_satori.log', 'a') as fo:
-    fo.write('DEBUG: {}\n'.format(s))
+  with open('debug_satori.log', 'a') as file_output:
+    file_output.write('DEBUG: {}\n'.format(msg))
 #'''
 
 def find_chr(config_file, chr1, chr2):
@@ -145,31 +163,34 @@ def satori(chr1, chr2):
   config_file = toml.parse(content)
   ## get the indexes of characters
   j, k = find_chr(config_file, chr1, chr2)
-  g1 = Girl(chr1, j['display_name'], j['hp'], j['atk'], j['spellcard'])
-  g2 = Girl(chr2, k['display_name'], k['hp'], k['atk'], k['spellcard'])
+  girl_1 = Girl(chr1, j['display_name'], j['hp'], j['atk'], j['spellcard'])
+  girl_2 = Girl(chr2, k['display_name'], k['hp'], k['atk'], k['spellcard'])
   ## print initial information
   while True:
  #   dbgprint('round start!')
-    if g1.is_dead() or g2.is_dead():
+    if girl_1.is_dead() or girl_2.is_dead():
       break
-    ## get current round's atk
+    ## get current round'msg atk
     print('===')
-    round_start(g1, g2)
-    atk1 = g1.get_round_atk()
-    atk2 = g2.get_round_atk()
-    print('本回合：{}的ATK是{};{}的ATK是{}'.format(g1.display_name, atk1, g2.display_name, atk2))
+    round_start(girl_1, girl_2)
+    atk1 = girl_1.get_round_atk()
+    atk2 = girl_2.get_round_atk()
+    print('本回合：{}的ATK是{};{}的ATK是{}'.\
+      format(girl_1.display_name, atk1, girl_2.display_name, atk2))
     if atk1 > atk2:
-      g1.use_spellcard(g2)
+      girl_1.use_spellcard(girl_2)
     else:
-      g2.use_spellcard(g1)
-    g1.after_round()
-    g2.after_round()
+      girl_2.use_spellcard(girl_1)
+    girl_1.after_round()
+    girl_2.after_round()
 
 
-def round_start(g1, g2):
-  
+def round_start(girl_1, girl_2):
+  '''Start a new round'''
   dbgprint("New round")
-  print("{}:\n血量:{}\nATK:{}\n{}:\n血量:{}\nATK:{}".format(g1.display_name, g1.cur_hp, g1.atk, g2.display_name, g2.cur_hp, g2.atk))
+  print("{}:\n血量:{}\nATK:{}\n{}:\n血量:{}\nATK:{}".\
+        format(girl_1.display_name, girl_1.cur_hp, girl_1.atk, \
+          girl_2.display_name, girl_2.cur_hp, girl_2.atk))
 
 
 satori('reimu', 'marisa')
