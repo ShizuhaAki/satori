@@ -29,7 +29,7 @@ In each round, the following events happen in chronological order:
 2. The one with the higher `atk` value for this round will be the attacker. A spellcard is randomly picked from her spellcards.
 3. A number is randomly picked between the two values specified in the spellcard's `harm` field. This is the harm (hp drop) caused by this spellcard. This value may be 0.
 4. The harm is applied.
-5. If the spellcard comes with shields, hp boosts or atk boosts, it is applied.
+5. If the spellcard comes with shields, hp boosts or atk boosts, it is applied. 
 6. The round ends, if both player have their hp >= 0, return to step 1.
 
 ### Spellcards
