@@ -20,4 +20,4 @@ jobs:
         pip install tomlkit
     - name: Test with pytest
       run: |
-        pylint `ls -R|grep .py$|xargs` --indent-string="  "
+        pylint `ls -R|grep .py$|xargs` --indent-string="  " --min-public-methods=1 --max-args=8
