@@ -17,6 +17,7 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install pylint
+        pip install tomlkit
     - name: Test with pytest
       run: |
         pylint `ls -R|grep .py$|xargs` --indent-string="  "
