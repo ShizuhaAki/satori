@@ -16,6 +16,7 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 '''
 import os
+import time
 import random
 import tomlkit as toml
 
@@ -55,7 +56,7 @@ class Girl:
       self.spellcard.append(Spellcard(config_file))
     self.shield = 0
     self.atk_boost = []
-    self.tag = False
+    self.tag = 0
 
 
   def is_dead(self):
@@ -79,10 +80,13 @@ class Girl:
       print('获得{}点攻击加成，持续{}回合'.format(spc.atk_boost_value, spc.atk_boost_dura))
     if spc.shield != 0:
       dbgprint('adding shield to {}, duration is {}'.format(self.name, spc.shield))
-      self.shield += spc.shield
-      self.tag = True
+      remain_shield = 0
+      if self.shield >= 1:
+        remain_shield += self.shield - 1
+      remain_shield += spc.shield
       print('{}在以后{}轮内不会受到伤害'.\
-        format(self.display_name, self.shield if self.shield == 1 else self.shield - 1))
+        format(self.display_name, remain_shield))
+      self.tag = spc.shield
     if spc.hp_boost != 0:
       self.cur_hp += spc.hp_boost
       print('血量恢复了{}点'.format(spc.hp_boost))
@@ -127,9 +131,10 @@ class Girl:
       self.atk_boost.remove(boost)
       if remain != 0:
         self.add_atk_boost(val, remain - 1)
-    if (self.shield > 1) or (self.shield == 1 and not self.tag):
+    if self.shield != 0:
       self.shield -= 1
-    self.tag = False
+    self.shield += self.tag
+    self.tag = 0
     dbgprint('boost of {}: {}'.format(self.name, self.atk_boost))
     dbgprint('shield of {}: {}'.format(self.name, self.shield))
     dbgprint('atk of {} is now {}'.format(self.name, self.atk))
@@ -156,7 +161,7 @@ def find_chr(config_file, chr1, chr2):
 
 def satori(chr1, chr2):
   '''Main function'''
-  dbgprint('Running satori: {}, {}'.format(chr1, chr2))
+  dbgprint('Running satori: {}, {} @ {}'.format(chr1, chr2, int(time.time())))
   ## read and parse toml files
   with open('characters.toml', 'r') as file_input:
     content = file_input.read()
