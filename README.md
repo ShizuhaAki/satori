@@ -11,7 +11,7 @@ Clone this repository, and run `main.py`.
 pip3 install tomlkit
 # Clone and run
 git clone https://github.com/Ravenclaw-OIer/satori
-python3 satori/main.py reimu marisa # change reimu and marisa to whoever you want
+python3 satori/satori.py reimu marisa # change reimu and marisa to whoever you want
 ```
 
 
