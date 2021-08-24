@@ -15,14 +15,11 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 '''
-import os
 import time
 import random
 import tomlkit as toml
-import docopt
+from docopt import docopt
 
-
-MODULE_DIR = os.path.abspath(__file__).replace('satori.py', '')
 
 
 class Spellcard:
@@ -66,7 +63,7 @@ class Girl:
 
 
 
-  def use_spellcard(self, enemy):
+  def use_spellcard(self, enemy, mode):
     '''Uses a spellcard'''
     ## choose a spellcard
     spc = random.choice(self.spellcard)
@@ -75,7 +72,10 @@ class Girl:
     if not enemy.drop_hp(cur_harm):
       print("无法造成伤害")
     else:
-      print("造成{}点伤害".format(cur_harm))
+      if mode == 'anke':
+        print("造成{}d{}={}点伤害".format(spc.min_harm, spc.max_harm, cur_harm))
+      else:
+        print("造成{}点伤害".format(cur_harm))
     if spc.atk_boost_value != 0:
       self.add_atk_boost(spc.atk_boost_value, spc.atk_boost_dura)
       print('获得{}点攻击加成，持续{}回合'.format(spc.atk_boost_value, spc.atk_boost_dura))
@@ -149,6 +149,7 @@ def dbgprint(msg):
     file_output.write('DEBUG: {}\n'.format(msg))
 #'''
 
+
 def find_chr(config_file, chr1, chr2):
   '''Finds a character from the TOML config file'''
   for i in config_file['character']:
@@ -160,7 +161,7 @@ def find_chr(config_file, chr1, chr2):
   return j, k
 
 
-def satori(chr1, chr2):
+def satori(chr1, chr2, mode):
   '''Main function'''
   dbgprint('Running satori: {}, {} @ {}'.format(chr1, chr2, int(time.time())))
   ## read and parse toml files
@@ -181,12 +182,17 @@ def satori(chr1, chr2):
     round_start(girl_1, girl_2)
     atk1 = girl_1.get_round_atk()
     atk2 = girl_2.get_round_atk()
-    print('本回合：{}的ATK是{};{}的ATK是{}'.\
-      format(girl_1.display_name, atk1, girl_2.display_name, atk2))
-    if atk1 > atk2:
-      girl_1.use_spellcard(girl_2)
+    if mode == 'normal':
+      print('本回合：{}的ATK是{};{}的ATK是{}'.\
+        format(girl_1.display_name, atk1, girl_2.display_name, atk2))
     else:
-      girl_2.use_spellcard(girl_1)
+      print('本回合：{}的ATK是1d{}={};{}的ATK是1d{}={}'.\
+            format(girl_1.display_name, girl_1.get_atk(), \
+               atk1, girl_2.display_name, girl_2.get_atk(), atk2))
+    if atk1 > atk2:
+      girl_1.use_spellcard(girl_2, mode)
+    else:
+      girl_2.use_spellcard(girl_1, mode)
     girl_1.after_round()
     girl_2.after_round()
 
@@ -199,4 +205,15 @@ def round_start(girl_1, girl_2):
           girl_2.display_name, girl_2.cur_hp, girl_2.atk))
 
 
-satori('reimu', 'marisa')
+def main():
+  '''Main function'''
+  option = ""
+  with open('docopt', 'r') as reader:
+    option = reader.read()
+  dbgprint(option)
+  args = docopt(option)
+  mode = args['--style']
+  satori(args['<girl1>'], args['<girl2>'], mode)
+
+
+main()

@@ -1,1 +1,2 @@
-tomlkit==0.7.0
+tomlkit
+docopt

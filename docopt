@@ -1,7 +1,7 @@
 Usage:
 satori [options] <girl1> <girl2>
 
--s, --style (normal | raw | anke)  Specifies the output style
+-s, --style (normal | anke)  Specifies the output style [default: normal]
 -v, --verbose                      Enter verbose mode
 --version                          Print version information
 -h, --help                         Print this short help and exit
