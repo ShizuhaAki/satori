@@ -19,6 +19,7 @@ import os
 import time
 import random
 import tomlkit as toml
+import docopt
 
 
 MODULE_DIR = os.path.abspath(__file__).replace('satori.py', '')
