@@ -16,8 +16,7 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install pylint
-        pip install tomlkit
+        pip install tomlkit docopt pylint
     - name: Test with pytest
       run: |
         pylint `ls -R|grep .py$|xargs` --indent-string="  " --min-public-methods=1 --max-args=8 --max-attributes=10
