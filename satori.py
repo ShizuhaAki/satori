@@ -21,6 +21,15 @@ import tomlkit as toml
 from docopt import docopt
 
 
+OPTIONS = '''Usage:
+satori [options] <girl1> <girl2>
+
+-s, --style (normal | anke)  Specifies the output style [default: normal]
+-v, --verbose                      Enter verbose mode
+--version                          Print version information
+-h, --help                         Print this short help and exit
+'''
+
 
 class Spellcard:
   '''Class for spellcards'''
@@ -207,11 +216,7 @@ def round_start(girl_1, girl_2):
 
 def main():
   '''Main function'''
-  option = ""
-  with open('docopt', 'r') as reader:
-    option = reader.read()
-  dbgprint(option)
-  args = docopt(option)
+  args = docopt(OPTIONS)
   mode = args['--style']
   satori(args['<girl1>'], args['<girl2>'], mode)
 
