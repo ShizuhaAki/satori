@@ -24,11 +24,11 @@ from docopt import docopt
 OPTIONS = '''Usage:
 satori [options] <girl1> <girl2>
 
--s, --style (normal | anke)  Specifies the output style [default: normal]
--v, --verbose                      Enter verbose mode
---version                          Print version information
+-f, --file <toml configuration>    Specifies the toml file to use [default: characters.toml]
+-s, --style (normal | anke)        Specifies the output style [default: normal]
 -h, --help                         Print this short help and exit
 '''
+
 
 
 class Spellcard:
@@ -170,11 +170,11 @@ def find_chr(config_file, chr1, chr2):
   return j, k
 
 
-def satori(chr1, chr2, mode):
+def satori(chr1, chr2, mode, cfgfile):
   '''Main function'''
   dbgprint('Running satori: {}, {} @ {}'.format(chr1, chr2, int(time.time())))
   ## read and parse toml files
-  with open('characters.toml', 'r') as file_input:
+  with open(cfgfile, 'r') as file_input:
     content = file_input.read()
   config_file = toml.parse(content)
   ## get the indexes of characters
@@ -218,7 +218,15 @@ def main():
   '''Main function'''
   args = docopt(OPTIONS)
   mode = args['--style']
-  satori(args['<girl1>'], args['<girl2>'], mode)
+  print("""
+This is satori, version 0.1.0
+
+Copyright (C) 2020 RavenclawOIer.
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+    """)
+  satori(args['<girl1>'], args['<girl2>'], mode, args['--file'])
 
 
 main()
