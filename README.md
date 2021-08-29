@@ -53,7 +53,14 @@ TOML sanity is **not** checked, so be extra careful with the format.
 
 Sanity check will be implemented in a future release (at least I hope so)
 
+### Features I will implement some day (a.k.a to-do list)
+
+- Complex spellcard trigger conditions
+- Complex spellcard effects
+- Chinese docs
+
 ## License
 
 This program is free software, you can redistribute it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3, or, at your option, any later version.
 
+Touhou Project is Copyright(C) Team Shanghai Alice, usage of their IP should follow their guidelines
