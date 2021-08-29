@@ -48,6 +48,11 @@ You can contribute by
 - Implementing complex spellcard behaviors
 - Simply playing around and report bugs
 
+## Note
+TOML sanity is **not** checked, so be extra careful with the format.
+
+Sanity check will be implemented in a future release (at least I hope so)
+
 ## License
 
 This program is free software, you can redistribute it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3, or, at your option, any later version.
