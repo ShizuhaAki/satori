@@ -228,5 +228,5 @@ There is NO WARRANTY, to the extent permitted by law.
     """)
   satori(args['<girl1>'], args['<girl2>'], mode, args['--file'])
 
-
-main()
+if __name__ == "__main__":
+  main()
