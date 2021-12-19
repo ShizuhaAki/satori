@@ -17,6 +17,7 @@
 '''
 import time
 import random
+import os
 import tomlkit as toml
 from docopt import docopt
 
@@ -226,6 +227,8 @@ License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
 This is free software: you are free to change and redistribute it.
 There is NO WARRANTY, to the extent permitted by law.
     """)
+  if args['--file'] == 'characters.toml':
+    args['--file'] = os.path.abspath(__file__)[:-9] + args['--file'] 
   satori(args['<girl1>'], args['<girl2>'], mode, args['--file'])
 
 if __name__ == "__main__":

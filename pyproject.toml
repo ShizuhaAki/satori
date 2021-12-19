@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "satori-gensokyo"
-version = "0.2.0"
+version = "0.2.1"
 description = "Gensokyo style spellcard fight generator"
 authors = ["Ravenclaw-OIer <lilywhite2005@outlook.com>"]
 license = "GPL-3.0-or-later"

@@ -4,14 +4,23 @@ satori is a tool that generates a Gensokyo-style spellcard fight purely randomly
 
 ## Usage
 
-Clone this repository, and run `main.py`.
+### Install from PyPI
+
+```bash
+pip3 install satori-gensokyo
+```
+
+Enjoy!
+
+### Manual Install
+Clone this repository, and run `satori.py`.
 
 ```bash
 # Install dependencies
 pip3 install tomlkit
 # Clone and run
 git clone https://github.com/Ravenclaw-OIer/satori
-python3 src/satori.py reimu marisa # change reimu and marisa to whoever you want
+python3 satori_gensokyo/satori.py reimu marisa # change reimu and marisa to whoever you want
 ```
 
 
